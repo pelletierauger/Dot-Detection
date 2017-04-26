@@ -3,9 +3,33 @@ var s;
 var looping = true;
 var sum = 0;
 var arr = [];
+var credits = [];
+var title01, title02, title03, title04, title05;
 
 function preload() {
     img = loadImage("titre05.png");
+    // for (var i = 1; i <= 5; i++) {
+    //     // var url = "/credits/title0" + i + ".json";
+    //     // var title = loadJSON(url);
+    //     // credits.push(title);
+    //     // loadJSON("/credits/title0" + i + ".json", gotTitle);
+    //     loadJSON("/credits/title0" + i + ".json", gotTitle);
+    // }
+    loadJSON("/credits/title01.json", function(t) {
+        title01 = t;
+    });
+    loadJSON("/credits/title02.json", function(t) {
+        title02 = t;
+    });
+    loadJSON("/credits/title03.json", function(t) {
+        title03 = t;
+    });
+    loadJSON("/credits/title04.json", function(t) {
+        title04 = t;
+    });
+    loadJSON("/credits/title05.json", function(t) {
+        title05 = t;
+    });
 }
 
 function setup() {
@@ -15,32 +39,55 @@ function setup() {
     image(img, 0, 0, width, height);
     loadPixels();
     background(0);
-    // console.log(pixels);
-    // console.log(pixels[1 + 2 * width]);
     noStroke();
     s = 8;
 }
 
+function gotTitle(titleJSON) {
+    var title = titleJSON;
+    credits.push(title);
+}
+
 function draw() {
     background(0);
+    // dotDetection();
+    runXSheet(xSheet);
+    // displayArray(arr);
+}
+
+function dotDetection() {
     if (sum < 4000) {
         for (var i = 0; i < 2500; i++) {
             var x = Math.floor(random(0, width));
             var y = Math.floor(random(0, height));
-            // console.log(pixels[x + y * width]);
             if (pixels[(x + y * width) * 4] >= 200 && sum < 4000) {
-                // fill(255, 150);
-                // console.log("Found a pixel : " + pixels[x + y * width]);
                 sum++;
-                // console.log(sum);
                 arr.push({ x: x, y: y });
-            } else {
-                // fill(255, 10);
             }
-            // ellipse(x, y, s);
         }
     }
-    for (var j = 0; j < arr.length; j++) {
+}
+
+function displayLerpedArrays(arr1, arr2, l) {
+    l = constrain(l, 0, 1);
+    //l = 0 : display all of arr1, none of arr1
+    //l = 0.5 : display half of arr1, half of arr2
+    //l = 1 : display all of arr2, none of arr1
+    if (arr1 !== null) {
+        var mapArr1 = map(l, 1, 0, arr1.length, 0);
+        displayArray(arr1, mapArr1);
+    }
+    if (arr2 !== null) {
+        var mapArr2 = map(l, 1, 0, 0, arr2.length);
+        displayArray(arr2, mapArr2);
+    }
+}
+
+function displayArray(arr, count) {
+    if (count == null) {
+        count = arr.length;
+    }
+    for (var j = 0; j < count; j++) {
         var blue = noise(frameCount / 10 + j) * 5;
         var mapsBlue = map(blue, 0, 5, 230, 255);
         var red = noise(frameCount / 20 + j) * 5;
@@ -54,15 +101,7 @@ function draw() {
             ellipse(arr[j].x + xx, arr[j].y + yy, random(s / 2, s));
         }
     }
-    // var total = 150;
-    // var increment = TWO_PI / total;
-    // for (var k = 0; k < TWO_PI; k += increment) {
-    //     var X = cos(k + frameCount / 10) * 135 * k / 10;
-    //     var Y = sin(k + frameCount / 10) * sin(k + frameCount / 20) * 135 * k / 10;
-    //     ellipse(X + width / 2, Y + height / 2, random(s / 2, s));
-    // }
 }
-
 
 function keyPressed() {
     if (keyCode === 32) {

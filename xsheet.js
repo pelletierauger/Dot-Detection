@@ -1,8 +1,8 @@
 var drawCount = 0;
 
 var xSheet = {
-    cre01: {
-        d: 100,
+    joyAndConfusion: {
+        d: 80,
         f: function() {
             // var rN = getSum(xSheet, xSheet.grotte);
             // firstSpiral.run();
@@ -12,8 +12,8 @@ var xSheet = {
             // displayArray(title01);
         }
     },
-    cred02: {
-        d: 100,
+    animation: {
+        d: 80,
         f: function(sum) {
             //The getSum function is used to get the sum another scene within the sheet.
             //Calling the getSum on the first scene of the x-sheet should be pointless.
@@ -22,33 +22,33 @@ var xSheet = {
             displayLerpedArrays(title01, title02, coFade);
         }
     },
-    cred03: {
-        d: 100,
+    music: {
+        d: 80,
         f: function(sum) {
             var coFade = cosineFade(sum, 20);
             displayLerpedArrays(title02, title03, coFade);
         }
     },
-    cred04: {
+    thanks: {
         d: 100,
         f: function(sum) {
             var coFade = cosineFade(sum, 20);
             displayLerpedArrays(title03, title04, coFade);
         }
     },
-    cred05: {
+    montreal: {
         d: 20,
         f: function(sum) {
             var coFade = cosineFade(sum, 20);
             displayLerpedArrays(title04, title05, coFade);
         }
     },
-    fadeOut: {
-        d: 320,
+    montreaFadeOut: {
+        d: 200,
         f: function(sum) {
-            var coFade = cosineFade(sum, 300);
+            var coFade = cosineFade(sum, 180);
             // var rN = getSum(xSheet, xSheet.introTransition);
-            if (drawCount > sum + 100) {
+            if (drawCount > sum + 30) {
                 var mapS = map(drawCount, sum, sum + 320, 0, 1);
                 var s = mapS;
                 for (var i = 0; i < title05.length; i++) {
